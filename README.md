@@ -1,16 +1,28 @@
 # 🚀 Python Flask App Deployment on AWS EKS using Amazon ECR & Kubernetes
 
 ## 📌 Project Overview
-This project demonstrates an end-to-end cloud-native deployment of a containerized Python Flask web application on AWS using Kubernetes.  
-The application serves an HTML page indicating that it is running inside Kubernetes and was deployed using Amazon ECR and Amazon EKS.
+This project demonstrates an end-to-end deployment of a containerized Python Flask web application on AWS using Docker, Amazon ECR, and Amazon EKS.  
+The application serves an HTML page indicating that it is running inside Kubernetes and is exposed externally using a Kubernetes NodePort service.
 
-The project showcases real-world DevOps practices including containerization, private image registry integration, Kubernetes orchestration, and external service exposure using NodePort.
+This project showcases real-world DevOps practices including containerization, private image registry integration, Kubernetes orchestration, and cloud-native deployment.
 
 ---
 
-## 🏗️ Architecture Diagram
+## 🏗️ Architecture
 
-![Architecture](docs/architecture.png)
+Python Flask App + HTML
+↓
+Docker Container Image
+↓
+Amazon ECR (Private Registry)
+↓
+Amazon EKS Cluster
+↓
+Kubernetes Deployment
+↓
+NodePort Service
+↓
+Access via Worker Node Public IP
 
 
 ---
@@ -50,49 +62,16 @@ python-k8s-app/
 └── index.html
 
 
-
 ---
 
 ## 🚀 Implementation Steps
-
-### 1️⃣ Application Development
-- Built a Flask web application
-- Implemented HTML templating using Jinja2
-- Exposed application on port 5000
-
----
-
-### 2️⃣ Containerization
-- Created Dockerfile for application packaging
-- Built Docker image locally
-- Tested container locally
-
----
-
-### 3️⃣ Image Registry Integration
-- Created private repository in Amazon ECR
-- Authenticated Docker to ECR
-- Tagged and pushed image to ECR
-
----
-
-### 4️⃣ Kubernetes Cluster Setup
-- Provisioned Amazon EKS cluster using eksctl
-- Verified worker nodes and networking
-
----
-
-### 5️⃣ Kubernetes Deployment
-- Created Deployment manifest with replicas
-- Configured container image from ECR
-- Enabled self-healing and scaling
-
----
-
-### 6️⃣ Service Exposure
-- Implemented NodePort service
-- Mapped port 80 → container port 5000
-- Accessed application via worker node public IP
+1. Developed a Flask-based Python web application with HTML templating.
+2. Containerized the application using Docker and tested locally.
+3. Created a private repository in Amazon ECR and pushed the Docker image.
+4. Provisioned an Amazon EKS cluster using eksctl.
+5. Deployed the application using Kubernetes Deployment manifest.
+6. Exposed the application externally using NodePort Service.
+7. Accessed the application via worker node public IP.
 
 ---
 
@@ -100,7 +79,7 @@ python-k8s-app/
 - Pods & ReplicaSets
 - Deployment strategy
 - NodePort Service
-- Image pulling from private registry
+- Image pulling from private registry (ECR)
 - Kubernetes networking
 - Pod logging & troubleshooting
 
@@ -108,7 +87,7 @@ python-k8s-app/
 
 ## 🎯 Key Learning Outcomes
 - Container lifecycle management
-- Kubernetes application deployment
+- Kubernetes application deployment and scaling
 - ECR authentication with EKS
 - Debugging containerized applications
 - Immutable infrastructure concepts
@@ -117,3 +96,33 @@ python-k8s-app/
 ---
 
 ## 🌐 Application Access
+http://<WORKER_NODE_PUBLIC_IP>:30007
+
+
+---
+
+## 🧠 Troubleshooting Highlights
+- Resolved TemplateNotFound error by rebuilding Docker image
+- Verified files inside running containers using kubectl exec
+- Debugged pod logs using kubectl logs
+- Restarted deployment after pushing updated image
+
+---
+
+## 📈 Future Improvements
+- Replace NodePort with AWS ALB Ingress
+- Implement CI/CD pipeline (GitHub Actions → ECR → EKS)
+- Add Horizontal Pod Autoscaler
+- Integrate Prometheus & Grafana monitoring
+- Use Gunicorn for production Flask server
+- Infrastructure provisioning using Terraform
+
+---
+
+## 👨‍💻 Author
+**Vishesh Patil**  
+DevOps & Cloud Enthusiast
+
+---
+
+⭐ If you like this project, consider giving it a star!
