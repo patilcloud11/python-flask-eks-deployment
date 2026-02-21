@@ -10,21 +10,27 @@ The pipeline integrates **GitHub, Docker, AWS ECR, Jenkins, and Kubernetes** to 
 ## 🏗️ Architecture
 
 GitHub (SCM)
+
 ↓
 
 Jenkins Pipeline
+
 ↓
 
 Docker Build
+
 ↓
 
 AWS ECR Push
+
 ↓
 
 kubectl Deployment
+
 ↓
 
 Amazon EKS Pods
+
 ↓
 
 Kubernetes Service (NodePort / LoadBalancer)
