@@ -11,12 +11,7 @@ pipeline {
 
     stages {
 
-        stage('Clone Repo') {
-            steps {
-                git 'https://github.com/patilcloud11/python-flask-eks-deployment.git'
-            }
-        }
-
+        
         stage('Verify Tools') {
             steps {
                 sh '''
