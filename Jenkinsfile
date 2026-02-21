@@ -6,7 +6,7 @@ pipeline {
         ECR_REPO = "793873033781.dkr.ecr.ap-south-1.amazonaws.com/python-flask-eks"
         IMAGE_NAME = "python-flask"
         IMAGE_TAG = "${BUILD_NUMBER}"
-        CLUSTER_NAME = "vishesh"
+        CLUSTER_NAME = "vishesh1"
     }
 
     stages {
