@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_REGION = "ap-south-1"
-        IMAGE_REPO = "793873033781.dkr.ecr.ap-south-1.amazonaws.com/python-k8s-app"
+        IMAGE_REPO = "793873033781.dkr.ecr.ap-south-1.amazonaws.com/python-flask-eks"
         IMAGE_TAG = "latest"
         KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
