@@ -1,128 +1,168 @@
-# 🚀 Python Flask App Deployment on AWS EKS using Amazon ECR & Kubernetes
+# 🚀 Python Flask EKS Deployment with Jenkins CI/CD
 
 ## 📌 Project Overview
-This project demonstrates an end-to-end deployment of a containerized Python Flask web application on AWS using Docker, Amazon ECR, and Amazon EKS.  
-The application serves an HTML page indicating that it is running inside Kubernetes and is exposed externally using a Kubernetes NodePort service.
+This project demonstrates an **end-to-end CI/CD pipeline** to automate the build, containerization, registry push, and deployment of a Python Flask application on **Amazon EKS** using Jenkins.
 
-This project showcases real-world DevOps practices including containerization, private image registry integration, Kubernetes orchestration, and cloud-native deployment.
+The pipeline integrates **GitHub, Docker, AWS ECR, Jenkins, and Kubernetes** to ensure fast, reliable, and scalable deployments.
 
 ---
 
 ## 🏗️ Architecture
 
-Python Flask App + HTML
+GitHub (SCM)
 ↓
-Docker Container Image
+Jenkins Pipeline
 ↓
-Amazon ECR (Private Registry)
+Docker Build
 ↓
-Amazon EKS Cluster
+AWS ECR Push
 ↓
-Kubernetes Deployment
+kubectl Deployment
 ↓
-NodePort Service
+Amazon EKS Pods
 ↓
-Access via Worker Node Public IP
+Kubernetes Service (NodePort / LoadBalancer)
 
 
 ---
 
-## ⚙️ Tech Stack
+## 🛠️ Tech Stack
 
-### ☁️ Cloud
-- AWS EC2 (Amazon Linux 2023)
-- Amazon ECR
-- Amazon EKS
+### Cloud
+- AWS EC2 (Jenkins Server)
+- AWS ECR (Container Registry)
+- AWS EKS (Kubernetes Cluster)
 
-### 🐳 Container & Orchestration
+### DevOps Tools
+- Jenkins
 - Docker
 - Kubernetes
-- kubectl
 - eksctl
+- kubectl
 
-### 💻 Application
+### Application
 - Python Flask
-- HTML Templates
 
-### 🛠️ DevOps Tools
-- Git & GitHub
-- AWS CLI
+### SCM
+- GitHub
 
 ---
 
 ## 📂 Project Structure
 
-python-k8s-app/
+.
 ├── app.py
 ├── requirements.txt
 ├── Dockerfile
 ├── deployment.yml
 ├── service.yml
-└── templates/
-└── index.html
+└── Jenkinsfile
 
 
 ---
 
-## 🚀 Implementation Steps
-1. Developed a Flask-based Python web application with HTML templating.
-2. Containerized the application using Docker and tested locally.
-3. Created a private repository in Amazon ECR and pushed the Docker image.
-4. Provisioned an Amazon EKS cluster using eksctl.
-5. Deployed the application using Kubernetes Deployment manifest.
-6. Exposed the application externally using NodePort Service.
-7. Accessed the application via worker node public IP.
+## ⚙️ CI/CD Pipeline Workflow
+
+1. **Code Checkout**
+   - Jenkins pulls code from GitHub repository
+
+2. **Docker Build**
+   - Application image built using Dockerfile
+
+3. **ECR Authentication**
+   - Jenkins authenticates with AWS ECR
+
+4. **Image Push**
+   - Docker image pushed to ECR with dynamic tag
+
+5. **Kubernetes Deployment**
+   - Image reference updated and deployed to EKS
+
+6. **Rollout Verification**
+   - Jenkins monitors deployment rollout
+
+7. **Service Exposure**
+   - Application exposed via Kubernetes service
 
 ---
 
-## 🔎 Kubernetes Concepts Demonstrated
-- Pods & ReplicaSets
-- Deployment strategy
-- NodePort Service
-- Image pulling from private registry (ECR)
-- Kubernetes networking
-- Pod logging & troubleshooting
+## 🚀 Setup Instructions
 
----
+### 1️⃣ Create EKS Cluster
+```bash
+eksctl create cluster --name vishesh --region ap-south-1
+2️⃣ Configure kubectl
+aws eks update-kubeconfig --region ap-south-1 --name vishesh
+3️⃣ Build Docker Image
+docker build -t python-flask .
+4️⃣ Push Image to ECR
+aws ecr get-login-password --region ap-south-1 \
+| docker login --username AWS --password-stdin <ECR_URL>
 
-## 🎯 Key Learning Outcomes
-- Container lifecycle management
-- Kubernetes application deployment and scaling
-- ECR authentication with EKS
-- Debugging containerized applications
-- Immutable infrastructure concepts
-- Real-world Kubernetes networking
+docker tag python-flask <ECR_URL>:latest
+docker push <ECR_URL>:latest
+5️⃣ Deploy to Kubernetes
+kubectl apply -f deployment.yml
+kubectl apply -f service.yml
+🔐 IAM Permissions Required
 
----
+AmazonEKSClusterPolicy
 
-## 🌐 Application Access
-http://<WORKER_NODE_PUBLIC_IP>:30007
+AmazonEKSWorkerNodePolicy
 
+AmazonEC2ContainerRegistryFullAccess
 
----
+AmazonEC2ContainerRegistryReadOnly
 
-## 🧠 Troubleshooting Highlights
-- Resolved TemplateNotFound error by rebuilding Docker image
-- Verified files inside running containers using kubectl exec
-- Debugged pod logs using kubectl logs
-- Restarted deployment after pushing updated image
+✅ Key Features
 
----
+Automated CI/CD pipeline
 
-## 📈 Future Improvements
-- Replace NodePort with AWS ALB Ingress
-- Implement CI/CD pipeline (GitHub Actions → ECR → EKS)
-- Add Horizontal Pod Autoscaler
-- Integrate Prometheus & Grafana monitoring
-- Use Gunicorn for production Flask server
-- Infrastructure provisioning using Terraform
+Dynamic Docker image tagging
 
----
+Rolling update deployment
 
-## 👨‍💻 Author
-**Vishesh Patil**  
-DevOps & Cloud Enthusiast
+Zero downtime releases
 
----
+Secure container registry integration
 
-⭐ If you like this project, consider giving it a star!
+Kubernetes scalable deployment
+
+IAM role-based authentication
+
+🧪 Verify Deployment
+kubectl get pods
+kubectl get svc
+
+Access application:
+
+http://NODE-IP:NodePort
+⚠️ Challenges & Fixes
+
+Docker permission issue for Jenkins
+
+kubeconfig authentication for Jenkins
+
+ImagePullBackOff due to repo mismatch
+
+Deployment name mismatch
+
+Branch mismatch (main vs master)
+
+📈 Future Improvements
+
+LoadBalancer service
+
+Ingress with AWS ALB
+
+Helm deployment
+
+HPA autoscaling
+
+Monitoring with Prometheus & Grafana
+
+HTTPS using Route53 + ACM
+
+👨‍💻 Author
+
+Vishesh Patil
