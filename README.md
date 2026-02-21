@@ -64,10 +64,15 @@ Kubernetes Service (NodePort / LoadBalancer)
 
 .
 ├── app.py
+
 ├── requirements.txt
+
 ├── Dockerfile
+
 ├── deployment.yml
+
 ├── service.yml
+
 └── Jenkinsfile
 
 
