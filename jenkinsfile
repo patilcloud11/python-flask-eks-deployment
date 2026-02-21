@@ -10,10 +10,11 @@ pipeline {
     stages {
 
         stage('Clone Repo') {
-            steps {
-                git 'https://github.com/patilcloud11/python-flask-eks-deployment.git'
+    steps {
+        git branch: 'main',
+        url: 'https://github.com/patilcloud11/python-flask-eks-deployment.git'
             }
-        }
+       }
 
         stage('Build Docker Image') {
             steps {
