@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: python-container
-        image: 793873033781.dkr.ecr.ap-south-1.amazonaws.com/python-k8s-app
+        image: 793873033781.dkr.ecr.ap-south-1.amazonaws.com/python-flask-eks:6
         ports:
         - containerPort: 5000
 
