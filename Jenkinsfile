@@ -71,7 +71,7 @@ pipeline {
                 kubectl apply -f deployment.yml
                 kubectl apply -f service.yml
 
-                kubectl rollout status deployment/flask-deployment
+                kubectl rollout status deployment/python-deployment
                 '''
             }
         }
