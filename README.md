@@ -11,16 +11,22 @@ The pipeline integrates **GitHub, Docker, AWS ECR, Jenkins, and Kubernetes** to 
 
 GitHub (SCM)
 ↓
+
 Jenkins Pipeline
 ↓
+
 Docker Build
 ↓
+
 AWS ECR Push
 ↓
+
 kubectl Deployment
 ↓
+
 Amazon EKS Pods
 ↓
+
 Kubernetes Service (NodePort / LoadBalancer)
 
 
@@ -89,78 +95,70 @@ Kubernetes Service (NodePort / LoadBalancer)
 ## 🚀 Setup Instructions
 
 ### 1️⃣ Create EKS Cluster
+
 ```bash
 eksctl create cluster --name vishesh --region ap-south-1
+
 2️⃣ Configure kubectl
 aws eks update-kubeconfig --region ap-south-1 --name vishesh
+
 3️⃣ Build Docker Image
 docker build -t python-flask .
+
 4️⃣ Push Image to ECR
 aws ecr get-login-password --region ap-south-1 \
 | docker login --username AWS --password-stdin <ECR_URL>
 
 docker tag python-flask <ECR_URL>:latest
 docker push <ECR_URL>:latest
+
 5️⃣ Deploy to Kubernetes
 kubectl apply -f deployment.yml
 kubectl apply -f service.yml
+
+
 🔐 IAM Permissions Required
 
 AmazonEKSClusterPolicy
-
 AmazonEKSWorkerNodePolicy
-
 AmazonEC2ContainerRegistryFullAccess
-
 AmazonEC2ContainerRegistryReadOnly
 
 ✅ Key Features
 
 Automated CI/CD pipeline
-
 Dynamic Docker image tagging
-
 Rolling update deployment
-
 Zero downtime releases
-
 Secure container registry integration
-
 Kubernetes scalable deployment
-
 IAM role-based authentication
 
 🧪 Verify Deployment
 kubectl get pods
 kubectl get svc
 
-Access application:
+- Access application:
 
 http://NODE-IP:NodePort
+
+
+
 ⚠️ Challenges & Fixes
 
 Docker permission issue for Jenkins
-
 kubeconfig authentication for Jenkins
-
 ImagePullBackOff due to repo mismatch
-
 Deployment name mismatch
-
 Branch mismatch (main vs master)
 
 📈 Future Improvements
 
 LoadBalancer service
-
 Ingress with AWS ALB
-
 Helm deployment
-
 HPA autoscaling
-
 Monitoring with Prometheus & Grafana
-
 HTTPS using Route53 + ACM
 
 👨‍💻 Author
